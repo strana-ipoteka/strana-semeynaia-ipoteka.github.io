@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>strana-development semeynaia ipoteka</title><meta name="description" content="Страна Девелопмент — калькулятор семейной ипотеки: анкета, первоначальный взнос и график платежей.">
+<style>
+:root{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:#3c3c3b;background:#f7f5f8;font-synthesis:none}*{box-sizing:border-box}body{margin:0}header,main,footer{max-width:1280px;margin:auto;padding:24px 32px}header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e5dfe7}.brand{font-weight:750;letter-spacing:-.5px}.brand span{display:inline-grid;place-items:center;background:#92278f;color:white;border-radius:9px;width:32px;height:32px;margin-right:10px}.tag{font-size:12px;color:#69636c}.intro{display:flex;justify-content:space-between;gap:20px;align-items:end;margin:12px 0 28px}h1{font-size:clamp(30px,4vw,46px);letter-spacing:-1.8px;margin:12px 0}h2{font-size:20px;margin:0 0 6px}p{line-height:1.55}.muted{color:#736a77;font-size:13px;margin:6px 0 20px}.eyebrow{font-size:11px;letter-spacing:1.8px;font-weight:700;color:#92278f}.grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:24px;align-items:start}.card{background:#fff;border:1px solid #e9e2eb;border-radius:20px;padding:28px;margin-bottom:22px}.step{font-size:12px;color:#92278f;margin-bottom:14px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:18px}.full{grid-column:1/-1}label{display:block;font-size:13px;font-weight:600;line-height:1.45}input,select{display:block;width:100%;margin-top:8px;padding:12px 13px;font:inherit;font-size:16px;color:#3c3c3b;border:1px solid #d9cddd;border-radius:9px;background:#fdfbfe;min-height:46px}input:focus,select:focus,button:focus-visible,summary:focus-visible{outline:3px solid #c6168d;outline-offset:2px}.hint{display:block;font-size:11px;color:#736a77;line-height:1.5;margin-top:6px;font-weight:400}.hidden{display:none!important}.result{background:#92278f;color:#fff}.result .muted,.result .eyebrow{color:#f7e3f4}.pill{display:inline-block;padding:7px 11px;border-radius:7px;font-size:12px;background:#eef7ef;color:#34713e;line-height:1.5;margin:15px 0}.pill.warn{background:#fff0f0;color:#ab1722}.big{font-size:clamp(30px,3.4vw,44px);font-weight:650;letter-spacing:-1.5px;margin:8px 0}.metric-label{font-size:13px;color:#fce9f7}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:20px;border-top:1px solid #ffffff4d;padding-top:22px;margin-top:24px}.metric{font-size:23px;margin-top:6px;font-weight:600}.line{display:flex;justify-content:space-between;gap:18px;padding:11px 0;border-bottom:1px solid #eee8f0;font-size:13px}.line strong{text-align:right}.notice{background:#f7f0f8;border-radius:10px;padding:13px 15px;font-size:12px;line-height:1.6;margin-top:18px}.actions{display:flex;gap:10px;flex-wrap:wrap}button{border:1px solid #d9cddd;border-radius:9px;background:white;color:#92278f;padding:11px 15px;font:inherit;font-size:13px;cursor:pointer}button.primary{background:#92278f;color:white;border-color:#92278f}button:disabled{opacity:.45;cursor:not-allowed}summary{cursor:pointer;font-weight:600;font-size:14px;padding:12px 0}table{border-collapse:collapse;width:100%;font-size:12px;font-variant-numeric:tabular-nums}th,td{padding:11px 10px;border-bottom:1px solid #e9e2eb;text-align:right;white-space:nowrap}th{background:#f7f0f8;font-weight:600}th:first-child,td:first-child{text-align:left}.scroll{overflow:auto;max-height:450px;margin-top:18px}thead{position:sticky;top:0}.schedule-top{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;align-items:center}.bar{height:10px;background:#eee7f0;border-radius:10px;overflow:hidden;margin:18px 0 8px}.bar div{height:100%;background:#92278f}.legend{display:flex;justify-content:space-between;gap:15px;font-size:11px;color:#736a77}footer{color:#736a77;font-size:12px;padding-top:0}.source{max-width:850px}.error{color:#bd1723;font-size:12px;margin-top:8px}@media(max-width:850px){header,main,footer{padding-left:18px;padding-right:18px}.grid{grid-template-columns:1fr}.intro{display:block}.card{padding:22px}.tag{max-width:140px;text-align:right}.fields{gap:16px}}@media(max-width:420px){.fields{grid-template-columns:1fr}.metrics{gap:12px}.metric{font-size:20px}}@media print{body{background:white}.actions,header,.no-print{display:none!important}.grid{display:block}.card{break-inside:avoid}.result{background:white;color:#3c3c3b}.result .muted,.result .metric-label{color:#3c3c3b}.scroll{max-height:none;overflow:visible}.big{font-size:30px}details{display:none}}
+
+/* Фирменные цвета из презентации «Страна», слайд 3. */
+header{min-height:100px}.brand{display:flex;flex-direction:column;align-items:flex-start;gap:10px}.company-logo{display:block;width:220px;height:auto;max-width:100%}.brand-caption{font-size:9px;letter-spacing:5.4px;color:#3c3c3b}.tag{line-height:1.7;font-size:14px;color:#92278f;font-weight:650;text-align:right}.tag span{font-size:11px;font-weight:400;color:#736a77}.intro{padding:12px 0 8px}h1,h2{color:#92278f}.result{background:linear-gradient(115deg,#92278f 0%,#c6168d 60%,#ed1c24 100%);border:0;box-shadow:0 12px 36px #92278f1c}.result .pill{background:#fff;color:#3c3c3b}.result .pill.warn{background:#fff0f0;color:#a61724}.result .muted{color:white}.result .metric-label{color:white}.result .eyebrow{color:#fff}.card{box-shadow:0 3px 16px #3c1b4a04}.step{font-weight:650}.result .big{font-size:clamp(30px,3.4vw,44px)}button.primary{background:#92278f}button:hover{border-color:#92278f}button.primary:hover{background:#7e217c}.notice{border-left:3px solid #c6168d}.bar div{background:linear-gradient(90deg,#92278f,#c6168d)}
+@media(max-width:480px){.company-logo{width:165px}.brand-caption{letter-spacing:3.5px;font-size:8px}.tag{font-size:12px}.tag span{font-size:10px}header{min-height:86px}}
+@media print{header{display:flex!important;min-height:65px;margin-bottom:12px}.tag{display:none}.company-logo{width:180px}.result{background:white!important;box-shadow:none;color:#3c3c3b}.result .eyebrow,.result .muted,.result .metric-label{color:#3c3c3b}.card{box-shadow:none}}
+
+/* Компоновка анкеты и параметров расчёта. */
+main{padding-top:6px}.intro{margin-top:0;padding-top:0}h1{margin-top:0}.questionnaire-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:12px}.questionnaire-head .step{margin-bottom:10px}.questionnaire-summary{display:grid;grid-template-columns:1fr;gap:9px;min-width:170px;text-align:right}.questionnaire-summary span{display:block;font-size:11px;color:#736a77;margin-bottom:3px}.questionnaire-summary strong{display:block;font-size:18px;line-height:1.3;color:#92278f;font-variant-numeric:tabular-nums}.result-down{border-top:1px solid #ffffff4d;margin-top:22px;padding-top:20px}.result-down-hint{font-size:12px;line-height:1.6;color:white;margin-top:9px}.result-down .metric{font-size:21px}
+@media(max-width:1050px) and (min-width:851px){.questionnaire-head{flex-direction:column}.questionnaire-summary{width:100%;grid-template-columns:1fr 1fr;text-align:left}}
+@media(max-width:480px){.questionnaire-head{flex-direction:column}.questionnaire-summary{width:100%;grid-template-columns:1fr 1fr;text-align:left}.questionnaire-summary strong{font-size:17px}}
+@media print{.result-down-hint{color:#3c3c3b}}
+
+/* Итог анкеты: фирменная подсказка с отдельными заголовком и пояснением. */
+.eligibility-status{display:flex;align-items:flex-start;gap:13px;margin-top:22px;padding:17px 18px;border-radius:14px;background:#f7f4f9;border:1px solid #eae2ef;color:#504456}.eligibility-icon{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border-radius:50%;background:#e9e0ef;color:#7e4289;font-size:16px;font-weight:700;line-height:1}.eligibility-title{font-size:14px;line-height:1.45;font-weight:700;letter-spacing:-.1px}.eligibility-detail{font-size:12px;line-height:1.6;color:#74677c;margin:5px 0 0}.eligibility-status[data-state="success"]{background:linear-gradient(110deg,#f7eef9,#fdf1f7);border-color:#edd4eb;color:#92278f}.eligibility-status[data-state="success"] .eligibility-icon{background:#92278f;color:white;box-shadow:0 3px 9px #92278f1c}.eligibility-status[data-state="success"] .eligibility-detail{color:#795c7d}.eligibility-status[data-state="warning"]{background:#fff4f5;border-color:#f3dade;color:#ad223e}.eligibility-status[data-state="warning"] .eligibility-icon{background:#fbe0e6;color:#b51f43}.eligibility-status[data-state="warning"] .eligibility-detail{color:#865967}@media(max-width:480px){.eligibility-status{padding:15px;gap:11px}.eligibility-title{font-size:13px}.eligibility-detail{font-size:12px}}
+
+/* Подсказки в расчёте повторяют оформление итога анкеты. */
+.result .calculation-status{margin:17px 0 22px;background:#fcf8fd;border-color:#ffffff80}.result .calculation-status[data-state="success"],.result .down-status[data-state="success"]{background:linear-gradient(110deg,#f7eef9,#fff6fb);color:#92278f;border-color:#edd4eb}.result .calculation-status[data-state="warning"],.result .down-status[data-state="warning"]{background:#fff3f5;color:#ad223e;border-color:#f3dade}.result .calculation-status[data-state="neutral"],.result .down-status[data-state="neutral"]{color:#504456;background:#fcf8fd}.result .down-status{margin-top:14px;padding:14px;gap:11px}.result .down-status .eligibility-icon{width:27px;height:27px;flex-basis:27px;font-size:14px}.result .down-status .eligibility-title{font-size:13px}.result .down-status .eligibility-detail{margin-top:4px}
+.strana-promo{display:flex;flex-direction:column;gap:12px;text-decoration:none;color:#92278f;background:linear-gradient(125deg,#f5eaf7,#fff2f7);border-color:#e9cce9;transition:box-shadow .2s,border-color .2s}.strana-promo strong{font-size:25px;letter-spacing:-.6px}.strana-promo-copy{font-size:13px;line-height:1.6;color:#795c7d}.strana-promo-cta{display:flex;align-items:center;justify-content:space-between;gap:16px;border-radius:10px;padding:13px 16px;background:linear-gradient(110deg,#92278f,#c6168d);color:white;font-size:14px;font-weight:650;margin-top:4px}.strana-promo:hover{border-color:#c6168d;box-shadow:0 8px 24px #92278f18}.strana-promo:focus-visible{outline:3px solid #c6168d;outline-offset:3px}
+</style></head><body>
+<header><div class="brand"><img class="company-logo" src="data:image/png;base64,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" alt="Страна" width="834" height="56"><div class="brand-caption">ДЕВЕЛОПМЕНТ</div></div></header>
+<main><div class="intro"><div><h1>Семейная ипотека</h1><p class="muted">Проверьте условия, рассчитайте взнос и посмотрите платежи на весь срок.</p></div><button id="reset" class="no-print">Сбросить данные</button></div>
+<div class="grid"><section>
+<div class="card" id="questionnaireCard"><div class="questionnaire-head"><div><div class="step">Анкета семьи</div><h2>Условия участия</h2></div><div class="questionnaire-summary" aria-live="polite"><div><span>Лимит по анкете</span><strong id="questionnaireLimit">—</strong></div><div><span>Ставка по анкете</span><strong id="questionnaireRate">—</strong></div></div></div><p class="muted">Ответы определяют ставку и доступную сумму кредита.</p>
+<form id="form" novalidate><div class="fields">
+<label>Регион покупки<select id="region"><option value="">Выберите регион</option><option selected>Москва</option><option>Московская область</option><option>Иной регион</option></select></label>
+<label>Количество детей<select id="children"><option value="">Выберите количество</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5 и более</option></select></label>
+<label class="full">Есть ребёнок до 6 лет включительно?<select id="young"><option value="">Выберите ответ</option><option selected>Да</option><option>Нет</option></select></label>
+<label class="full">Есть ребёнок с инвалидностью?<select id="disabled"><option value="">Выберите ответ</option><option>Да</option><option selected>Нет</option></select></label>
+<label class="full">Первоначальный взнос по анкете, %<input id="questionDown" type="number" min="0" max="100" step="0.1" value="20.1"></label>
+<label class="full">Ранее оформляли Семейную, IT, Господдержку 2020, Дальневосточную или Арктическую ипотеку?<select id="previous"><option value="" selected>Выберите ответ</option><option>Да</option><option>Нет</option></select></label>
+<label class="full hidden" id="beforeField">Эту ипотеку брали до 23.12.2023?<select id="before"><option value="">Выберите ответ</option><option>Да</option><option>Нет</option></select><span class="hint">Для договора от 23.12.2023 и позднее выберите «Нет».</span></label>
+<label class="full hidden" id="exceptionField">Прежняя льготная ипотека полностью погашена и после её оформления родился ещё один ребёнок?<select id="exception"><option value="">Выберите ответ</option><option>Да</option><option>Нет</option></select></label>
+</div></form><div id="eligibility" class="eligibility-status" data-state="neutral" role="status" aria-live="polite" aria-atomic="true"><span id="eligibilityIcon" class="eligibility-icon" aria-hidden="true">i</span><div><div id="eligibilityTitle" class="eligibility-title"></div><p id="eligibilityDetail" class="eligibility-detail"></p></div></div></div>
+</section><aside>
+<div class="card" id="parametersCard"><div class="step">Параметры расчёта</div><h2>Квартира и кредит</h2><p class="muted">Введите стоимость, взнос и срок от 1 до 30 лет.</p><div class="fields">
+<label class="full">Стоимость квартиры, ₽<input form="form" id="price" type="number" min="1" step="any" value="17000000"></label>
+<label>Первоначальный взнос, ₽<input form="form" id="down" type="number" min="0" step="any" value="5000000"></label>
+<label>Первоначальный взнос, %<input form="form" id="downPercent" type="number" min="0" max="100" step="any" aria-describedby="downHint"></label>
+<p id="downHint" class="muted full" style="margin:0">Укажите взнос в рублях или процентах — второе поле пересчитается автоматически.</p>
+<label class="full">Срок кредита, лет<input form="form" id="years" type="number" min="1" max="30" step="1" value="15"></label>
+</div><div class="line"><span>Фактический взнос</span><strong id="actualDown">—</strong></div><div id="inputError" class="error" role="status"></div></div>
+
+<div class="card result" aria-live="polite"><div class="eyebrow">ВАШ РАСЧЁТ</div><div id="calcStatus" class="eligibility-status calculation-status" data-state="neutral" role="status" aria-atomic="true"><span id="calcStatusIcon" class="eligibility-icon" aria-hidden="true">i</span><div><div id="calcStatusTitle" class="eligibility-title"></div><p id="calcStatusDetail" class="eligibility-detail"></p></div></div><div class="metric-label">Ежемесячный платёж в первые 15 лет</div><div class="big" id="first">—</div><div class="muted" id="firstNote">После заполнения анкеты и параметров покупки</div>
+<div class="metrics"><div><div class="metric-label">Начальная ставка</div><div class="metric" id="rate">—</div></div><div><div class="metric-label">Сумма кредита</div><div class="metric" id="loan">—</div></div></div>
+<div class="result-down"><div class="metric-label">Первоначальный взнос</div><div class="metric" id="resultDown">—</div></div>
+<div id="secondBlock" class="hidden"><div class="metrics"><div><div class="metric-label">Платёж с 16-го года</div><div class="metric" id="second">—</div></div><div><div class="metric-label">Ставка с 16-го года</div><div class="metric" id="secondRate">—</div></div></div></div></div>
+<div class="card"><h2>Стоимость кредита</h2><div class="line"><span>Проценты за весь срок</span><strong id="interest">—</strong></div><div class="line"><span>Все платежи по кредиту</span><strong id="total">—</strong></div><div class="bar" aria-hidden="true"><div id="principalBar" style="width:0"></div></div><div class="legend"><span>Сумма кредита</span><span>Проценты</span></div></div>
+<a class="strana-promo card no-print" href="https://strana.com/" target="_blank" rel="noopener noreferrer" aria-label="Выбрать квартиру на strana.com — откроется в новой вкладке"><span class="eyebrow">СТРАНА ДЕВЕЛОПМЕНТ</span><strong>Выбрать квартиру</strong><span class="strana-promo-copy">Перейдите на сайт Страны, чтобы посмотреть квартиры.</span><span class="strana-promo-cta">Перейти на strana.com <span aria-hidden="true">↗</span></span></a>
+</aside></div>
+<section class="card"><div class="schedule-top"><div><h2>График платежей</h2><p class="muted" id="scheduleNote">Помесячный расчёт появится после заполнения анкеты.</p></div><div class="actions"><button id="print">Печать расчёта</button></div></div><div id="scheduleEmpty" class="notice">Сначала завершите анкету и проверьте параметры покупки.</div><div id="scheduleWrap" class="scroll hidden"><table><caption class="hidden">Помесячный график платежей по кредиту</caption><thead><tr><th scope="col">Месяц</th><th scope="col">Год</th><th scope="col">Ставка</th><th scope="col">Долг на начало, ₽</th><th scope="col">Платёж, ₽</th><th scope="col">Проценты, ₽</th><th scope="col">Основной долг, ₽</th><th scope="col">Остаток, ₽</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+
+</main><footer><p>Расчёты выполняются в вашем браузере. Данные не отправляются на сервер и не сохраняются после перезагрузки страницы. HTML-файл можно свободно открывать и передавать. Авторизация не требуется.</p></footer>
+<script>/* Расчёты по Опрос!D4:D32, H6:H36 и Условия исходного Excel. */
+(function(root){
+'use strict';
+const table={capital:{rates:[12,10,8,6,4],limits:[12,15,18,18,18]},other:{rates:[10,8,6,4,2],limits:[6,8,10,10,10]}};
+const payment=(p,r,n)=>r===0?p/n:p*r/(-Math.expm1(-n*Math.log1p(r)));
+function calculate(a){
+ let status='';
+ if(!a.previous)status='Ответьте о прошлой ипотеке';
+ else if(a.previous==='Да'&&!a.before)status='Уточните дату прошлой ипотеки';
+ else if(a.previous==='Да'&&a.before==='Нет'&&a.exception!=='Да')status=a.exception==='Нет'?'Не подходит: прежняя ипотека':'Уточните условия исключения';
+ else if(!a.region||!Number.isInteger(a.children)||a.children<1||a.children>5||!Number.isFinite(a.questionDown)||!a.disabled)status='Заполните анкету';
+ else if(a.questionDown<0||a.questionDown>100)status='Проверьте ответы';
+ else if(a.disabled!=='Да'&&!a.young)status='Укажите возраст ребенка';
+ else if(a.disabled!=='Да'&&a.young==='Нет')status='Не проходит по возрасту';
+ else if(a.questionDown<20.1)status='Не подходит: увеличьте ПВ до 20,1%';
+ else status='Подходит по условиям';
+ const t=table[a.region==='Иной регион'?'other':'capital'];
+ const hasLimit=['Подходит по условиям','Не подходит: увеличьте ПВ до 20,1%'].includes(status);
+ const limit=hasLimit?t.limits[a.children-1]*1e6:null;
+ const rate=status==='Подходит по условиям'?(a.questionDown>=50.1?6:t.rates[a.children-1]):null;
+ const validPrice=Number.isFinite(a.price)&&a.price>0;
+ const minDown=validPrice&&limit!==null?Math.ceil(Math.round(Math.max(a.price*.201,a.price-limit)*1e6)/1e4)/100:null;
+ const validDown=validPrice&&Number.isFinite(a.down)&&a.down>=0&&a.down<=a.price;
+ const extra=minDown!==null&&validDown?Math.round(Math.max(0,minDown-a.down)*100)/100:null;
+ let calcStatus='';
+ if(a.years>30)calcStatus='Срок не более 30 лет';
+ else if(![a.price,a.down,a.years].every(Number.isFinite))calcStatus='Заполните калькулятор';
+ else if(!validDown||a.years<=0||!Number.isInteger(a.years))calcStatus='Проверьте значения';
+ else if(status!=='Подходит по условиям')calcStatus=status==='Не подходит: увеличьте ПВ до 20,1%'?'Увеличьте взнос':'Проверьте анкету';
+ else if(a.price===a.down)calcStatus='Кредит не требуется';
+ else if(extra>0)calcStatus='Увеличьте взнос';
+ else calcStatus='Расчет готов';
+ const loan=validDown?a.price-a.down:null;
+ const result={status,calcStatus,limit,rate,loan,minDown,extra,actualDown:validDown?a.down/a.price*100:null,schedule:[],first:null,second:null,total:null,interest:null,balance15:null};
+ if(calcStatus!=='Расчет готов')return result;
+ const n=a.years*12,r=rate/1200,first=payment(loan,r,n);
+ let balance=loan,total=0,interest=0,second=null,balance15=null;
+ for(let month=1;month<=n;month++){
+   if(month===181){balance15=balance;second=payment(balance,(rate+4)/1200,n-180);}
+   const annual=month<=180?rate:rate+4;
+   const fee=balance*annual/1200;
+   const pay=month===n?balance+fee:(month<=180?first:second);
+   const principal=pay-fee,end=month===n?0:balance-principal;
+   result.schedule.push({month,year:Math.floor((month-1)/12)+1,rate:annual,start:balance,payment:pay,interest:fee,principal,end});
+   total+=pay;interest+=fee;balance=end;
+ }
+ return Object.assign(result,{first,second,total,interest,balance15});
+}
+root.Mortgage={calculate,payment,table};
+if(typeof module!=='undefined')module.exports=root.Mortgage;
+})(typeof window!=='undefined'?window:globalThis);
+</script><script>
+'use strict';
+const $=id=>document.getElementById(id),money=new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2,minimumFractionDigits:2}),pct=new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2});
+const rub=x=>Number.isFinite(x)?money.format(x)+' ₽':'—',percent=x=>Number.isFinite(x)?pct.format(x)+'%':'—';
+const fields=['region','children','young','disabled','questionDown','previous','before','exception','price','down','years'];
+let current;
+let downUnit='rub';
+function syncDown(){
+ const price=Number($('price').value),validPrice=$('price').value!==''&&Number.isFinite(price)&&price>0;
+ const source=$(downUnit==='percent'?'downPercent':'down'),target=$(downUnit==='percent'?'down':'downPercent');
+ const value=Number(source.value);
+ if(!validPrice||source.value===''||!Number.isFinite(value)){target.value='';return;}
+ const converted=downUnit==='percent'?Math.round(price*value)/100:Math.round(value/price*100*1e6)/1e6;
+ target.value=Number.isFinite(converted)?String(converted):'';
+}
+function inputs(){const a=Object.fromEntries(fields.map(k=>[k,$(k).value]));for(const k of ['children','questionDown','price','down','years'])a[k]=a[k]===''?NaN:Number(a[k]);return a;}
+function update(){
+ const a=inputs(),r=Mortgage.calculate(a);current=r;
+ $('beforeField').classList.toggle('hidden',a.previous!=='Да');$('exceptionField').classList.toggle('hidden',a.previous!=='Да'||a.before!=='Нет');
+ const statusMessages={
+  'Подходит по условиям':['success','✓','Предварительно подходит','По вашим ответам условия программы соблюдены. Ставка и лимит — вверху анкеты.'],
+  'Ответьте о прошлой ипотеке':['neutral','i','Уточните прошлую ипотеку','Выберите, оформляли ли вы одну из перечисленных льготных программ.'],
+  'Уточните дату прошлой ипотеки':['neutral','i','Важна дата договора','Укажите, была ли прежняя ипотека оформлена до 23 декабря 2023 года.'],
+  'Уточните условия исключения':['neutral','i','Проверьте возможность повторного участия','Ответьте на вопрос о погашении прошлой ипотеки и рождении ещё одного ребёнка.'],
+  'Заполните анкету':['neutral','i','Дополните данные семьи','Выберите ответы и укажите первоначальный взнос по анкете — затем появятся ставка и лимит.'],
+  'Укажите возраст ребенка':['neutral','i','Уточните возраст ребёнка','Укажите, есть ли в семье ребёнок до 6 лет включительно.'],
+  'Не проходит по возрасту':['warning','!','Возрастное условие не выполнено','Для этой программы нужен ребёнок до 6 лет включительно или ребёнок с инвалидностью.'],
+  'Не подходит: увеличьте ПВ до 20,1%':['warning','!','Нужен больший первоначальный взнос','Минимум для участия — 20,1%. Измените взнос по анкете, чтобы продолжить расчёт.'],
+  'Не подходит: прежняя ипотека':['warning','!','Условие повторного участия не выполнено','По вашим ответам исключение для ранее оформленной льготной ипотеки не применяется.'],
+  'Проверьте ответы':['warning','!','Проверьте первоначальный взнос','Введите значение от 0 до 100%.']
+ };
+ const message=statusMessages[r.status]||['neutral','i','Проверьте ответы анкеты',r.status];
+ $('eligibility').dataset.state=message[0];$('eligibilityIcon').textContent=message[1];$('eligibilityTitle').textContent=message[2];$('eligibilityDetail').textContent=message[3];
+ const calcMessages={
+ 'Расчет готов':['success','✓','Расчёт готов','Платежи и график рассчитаны по вашим данным. Подробности — ниже.'],
+ 'Заполните калькулятор':['neutral','i','Добавьте параметры покупки','Укажите стоимость квартиры, первоначальный взнос и срок кредита.'],
+ 'Проверьте анкету':['neutral','i','Сначала завершим анкету',message[3]],
+ 'Увеличьте взнос':['warning','!', 'Скорректируйте первоначальный взнос',r.extra>0?'До минимального взноса не хватает '+rub(r.extra)+'. Увеличьте сумму взноса в параметрах расчёта.':r.status==='Не подходит: увеличьте ПВ до 20,1%'?'Для участия нужен взнос по анкете от 20,1%. Измените его в анкете семьи.':'Проверьте взнос в анкете и параметрах покупки: минимум для участия — 20,1%.'],
+ 'Кредит не требуется':['success','✓','Покупка без кредита','Указанный взнос покрывает всю стоимость квартиры. Ежемесячных платежей по кредиту не будет.'],
+ 'Срок не более 30 лет':['warning','!','Выберите срок до 30 лет','Для расчёта укажите целое число лет от 1 до 30.'],
+ 'Проверьте значения':['warning','!','Проверьте параметры покупки','Стоимость должна быть больше нуля, взнос — от нуля до стоимости квартиры, срок — от 1 до 30 целых лет.']
+ };
+ const calcMessage=calcMessages[r.calcStatus]||['neutral','i','Уточните данные',r.calcStatus];
+ $('calcStatus').dataset.state=calcMessage[0];$('calcStatusIcon').textContent=calcMessage[1];$('calcStatusTitle').textContent=calcMessage[2];$('calcStatusDetail').textContent=calcMessage[3];
+ for(const k of ['first','loan','second','interest','total'])$(k).textContent=rub(r[k]);
+ $('questionnaireLimit').textContent=rub(r.limit);$('questionnaireRate').textContent=percent(r.rate);
+ $('resultDown').textContent=r.actualDown!==null?rub(a.down):'—';
+ $('rate').textContent=percent(r.rate);$('actualDown').textContent=percent(r.actualDown);
+ $('firstNote').textContent=r.first!==null?(a.years<=15?'Платёж действует весь срок кредита':'С 181-го месяца платёж изменится'):'После заполнения анкеты и параметров покупки';
+ $('secondBlock').classList.toggle('hidden',r.second===null);$('secondRate').textContent=percent(r.second!==null?r.rate+4:null);
+ $('inputError').textContent=a.down>a.price?'Взнос не может превышать стоимость квартиры.':(Number.isFinite(a.years)&&(!Number.isInteger(a.years)||a.years<1||a.years>30)?'Срок должен быть целым числом от 1 до 30 лет.':'');
+ $('principalBar').style.width=r.total?Math.min(100,r.loan/r.total*100)+'%':'0%';
+ const ready=r.schedule.length>0;$('scheduleWrap').classList.toggle('hidden',!ready);$('scheduleEmpty').classList.toggle('hidden',ready);
+ $('scheduleNote').textContent=ready?(r.second!==null?'С 181-го месяца ставка выше на 4 п. п.; платёж пересчитан по остатку долга.':'Фиксированная ставка на весь срок. Последний платёж закрывает остаток долга.'):'Помесячный расчёт появится после заполнения анкеты.';
+ $('rows').innerHTML=r.schedule.map(s=>'<tr>'+[s.month,s.year,percent(s.rate),...['start','payment','interest','principal','end'].map(k=>money.format(s[k]))].map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('');
+}
+for(const k of fields)$(k).addEventListener('input',()=>{
+ if(k==='down')downUnit='rub';
+ if(k==='down'||k==='price')syncDown();
+ update();
+});
+$('downPercent').addEventListener('input',()=>{downUnit='percent';syncDown();update();});
+$('form').addEventListener('submit',e=>e.preventDefault());
+$('reset').addEventListener('click',()=>{fields.forEach(k=>$(k).value='');$('downPercent').value='';downUnit='rub';update();});
+$('print').addEventListener('click',()=>window.print());
+syncDown();
+update();
+</script></body></html>
