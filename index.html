@@ -79,7 +79,7 @@ function calculate(a){
  const validPrice=Number.isFinite(a.price)&&a.price>0;
  const minDown=validPrice&&limit!==null?Math.ceil(Math.round(Math.max(a.price*.201,a.price-limit)*1e6)/1e4)/100:null;
  const validDown=validPrice&&Number.isFinite(a.down)&&a.down>=0&&a.down<=a.price;
- const rate=questionnaireRate!==null&&validDown&&a.down>=a.price*.5?6:questionnaireRate;
+ const rate=questionnaireRate!==null&&validDown&&a.down>=a.price*.5?Math.min(questionnaireRate,6):questionnaireRate;
  const extra=minDown!==null&&validDown?Math.round(Math.max(0,minDown-a.down)*100)/100:null;
  let calcStatus='';
  if(a.years>30)calcStatus='Срок не более 30 лет';
