@@ -31,7 +31,7 @@ main{padding-top:6px}.intro{margin-top:0;padding-top:0}h1{margin-top:0}.question
 <label class="full">Есть ребёнок до 6 лет включительно?<select id="young"><option value="">Выберите ответ</option><option selected>Да</option><option>Нет</option></select></label>
 <label class="full">Есть ребёнок с инвалидностью?<select id="disabled"><option value="">Выберите ответ</option><option>Да</option><option selected>Нет</option></select></label>
 <label class="full">Первоначальный взнос по анкете, %<input id="questionDown" type="number" min="0" max="100" step="0.1" value="20.1"></label>
-<label class="full">Ранее оформляли Семейную, IT, Господдержку 2020, Дальневосточную или Арктическую ипотеку?<select id="previous"><option value="" selected>Выберите ответ</option><option>Да</option><option>Нет</option></select></label>
+<label class="full" id="previousField">Ранее оформляли любую льготную ипотеку: Семейная, IT, Господдержка, Дальневосточная или Арктическая?<select id="previous"><option value="" selected>Выберите ответ</option><option>Да</option><option>Нет</option></select></label>
 <label class="full hidden" id="beforeField">Эту ипотеку брали до 23.12.2023?<select id="before"><option value="">Выберите ответ</option><option>Да</option><option>Нет</option></select><span class="hint">Для договора от 23.12.2023 и позднее выберите «Нет».</span></label>
 <label class="full hidden" id="exceptionField">Прежняя льготная ипотека полностью погашена и после её оформления родился ещё один ребёнок?<select id="exception"><option value="">Выберите ответ</option><option>Да</option><option>Нет</option></select></label>
 </div></form><div id="eligibility" class="eligibility-status" data-state="neutral" role="status" aria-live="polite" aria-atomic="true"><span id="eligibilityIcon" class="eligibility-icon" aria-hidden="true">i</span><div><div id="eligibilityTitle" class="eligibility-title"></div><p id="eligibilityDetail" class="eligibility-detail"></p></div></div></div>
@@ -49,10 +49,11 @@ main{padding-top:6px}.intro{margin-top:0;padding-top:0}h1{margin-top:0}.question
 <div class="result-down"><div class="metric-label">Первоначальный взнос</div><div class="metric" id="resultDown">—</div></div>
 <div id="secondBlock" class="hidden"><div class="metrics"><div><div class="metric-label">Платёж с 16-го года</div><div class="metric" id="second">—</div></div><div><div class="metric-label">Ставка с 16-го года</div><div class="metric" id="secondRate">—</div></div></div></div></div>
 <div class="card"><h2>Стоимость кредита</h2><div class="line"><span>Проценты за весь срок</span><strong id="interest">—</strong></div><div class="line"><span>Все платежи по кредиту</span><strong id="total">—</strong></div><div class="bar" aria-hidden="true"><div id="principalBar" style="width:0"></div></div><div class="legend"><span>Сумма кредита</span><span>Проценты</span></div></div>
-<a class="strana-promo card no-print" href="https://strana.com/" target="_blank" rel="noopener noreferrer" aria-label="Выбрать квартиру на strana.com — откроется в новой вкладке"><span class="eyebrow">СТРАНА ДЕВЕЛОПМЕНТ</span><strong>Выбрать квартиру</strong><span class="strana-promo-copy">Перейдите на сайт Страны, чтобы посмотреть квартиры.</span><span class="strana-promo-cta">Перейти на strana.com <span aria-hidden="true">↗</span></span></a>
+
 </aside></div>
 <section class="card"><div class="schedule-top"><div><h2>График платежей</h2><p class="muted" id="scheduleNote">Помесячный расчёт появится после заполнения анкеты.</p></div><div class="actions"><button id="print">Печать расчёта</button></div></div><div id="scheduleEmpty" class="notice">Сначала завершите анкету и проверьте параметры покупки.</div><div id="scheduleWrap" class="scroll hidden"><table><caption class="hidden">Помесячный график платежей по кредиту</caption><thead><tr><th scope="col">Месяц</th><th scope="col">Год</th><th scope="col">Ставка</th><th scope="col">Долг на начало, ₽</th><th scope="col">Платёж, ₽</th><th scope="col">Проценты, ₽</th><th scope="col">Основной долг, ₽</th><th scope="col">Остаток, ₽</th></tr></thead><tbody id="rows"></tbody></table></div></section>
 
+<a class="strana-promo card no-print" href="https://strana.com/" target="_blank" rel="noopener noreferrer" aria-label="Выбрать квартиру на strana.com — откроется в новой вкладке"><span class="eyebrow">СТРАНА ДЕВЕЛОПМЕНТ</span><strong>Выбрать квартиру</strong><span class="strana-promo-copy">Перейдите на сайт Страны, чтобы посмотреть квартиры.</span><span class="strana-promo-cta">Перейти на strana.com <span aria-hidden="true">↗</span></span></a>
 </main><footer><p>Расчёты выполняются в вашем браузере. Данные не отправляются на сервер и не сохраняются после перезагрузки страницы. HTML-файл можно свободно открывать и передавать. Авторизация не требуется.</p></footer>
 <script>/* Расчёты по Опрос!D4:D32, H6:H36 и Условия исходного Excel. */
 (function(root){
@@ -61,7 +62,8 @@ const table={capital:{rates:[12,10,8,6,4],limits:[12,15,18,18,18]},other:{rates:
 const payment=(p,r,n)=>r===0?p/n:p*r/(-Math.expm1(-n*Math.log1p(r)));
 function calculate(a){
  let status='';
- if(!a.previous)status='Ответьте о прошлой ипотеке';
+ if(a.young==='Нет'&&a.disabled==='Нет')status='Не проходит по возрасту';
+ else if(!a.previous)status='Ответьте о прошлой ипотеке';
  else if(a.previous==='Да'&&!a.before)status='Уточните дату прошлой ипотеки';
  else if(a.previous==='Да'&&a.before==='Нет'&&a.exception!=='Да')status=a.exception==='Нет'?'Не подходит: прежняя ипотека':'Уточните условия исключения';
  else if(!a.region||!Number.isInteger(a.children)||a.children<1||a.children>5||!Number.isFinite(a.questionDown)||!a.disabled)status='Заполните анкету';
@@ -73,10 +75,11 @@ function calculate(a){
  const t=table[a.region==='Иной регион'?'other':'capital'];
  const hasLimit=['Подходит по условиям','Не подходит: увеличьте ПВ до 20,1%'].includes(status);
  const limit=hasLimit?t.limits[a.children-1]*1e6:null;
- const rate=status==='Подходит по условиям'?(a.questionDown>=50.1?6:t.rates[a.children-1]):null;
+ const questionnaireRate=status==='Подходит по условиям'?(a.questionDown>=50.1?6:t.rates[a.children-1]):null;
  const validPrice=Number.isFinite(a.price)&&a.price>0;
  const minDown=validPrice&&limit!==null?Math.ceil(Math.round(Math.max(a.price*.201,a.price-limit)*1e6)/1e4)/100:null;
  const validDown=validPrice&&Number.isFinite(a.down)&&a.down>=0&&a.down<=a.price;
+ const rate=questionnaireRate!==null&&validDown&&a.down>=a.price*.5?6:questionnaireRate;
  const extra=minDown!==null&&validDown?Math.round(Math.max(0,minDown-a.down)*100)/100:null;
  let calcStatus='';
  if(a.years>30)calcStatus='Срок не более 30 лет';
@@ -87,7 +90,7 @@ function calculate(a){
  else if(extra>0)calcStatus='Увеличьте взнос';
  else calcStatus='Расчет готов';
  const loan=validDown?a.price-a.down:null;
- const result={status,calcStatus,limit,rate,loan,minDown,extra,actualDown:validDown?a.down/a.price*100:null,schedule:[],first:null,second:null,total:null,interest:null,balance15:null};
+ const result={status,calcStatus,limit,rate,questionnaireRate,loan,minDown,extra,actualDown:validDown?a.down/a.price*100:null,schedule:[],first:null,second:null,total:null,interest:null,balance15:null};
  if(calcStatus!=='Расчет готов')return result;
  const n=a.years*12,r=rate/1200,first=payment(loan,r,n);
  let balance=loan,total=0,interest=0,second=null,balance15=null;
@@ -123,7 +126,10 @@ function syncDown(){
 function inputs(){const a=Object.fromEntries(fields.map(k=>[k,$(k).value]));for(const k of ['children','questionDown','price','down','years'])a[k]=a[k]===''?NaN:Number(a[k]);return a;}
 function update(){
  const a=inputs(),r=Mortgage.calculate(a);current=r;
- $('beforeField').classList.toggle('hidden',a.previous!=='Да');$('exceptionField').classList.toggle('hidden',a.previous!=='Да'||a.before!=='Нет');
+ const ageRejected=a.young==='Нет'&&a.disabled==='Нет';
+ $('previousField').classList.toggle('hidden',ageRejected);$('previous').disabled=ageRejected;
+ $('beforeField').classList.toggle('hidden',ageRejected||a.previous!=='Да');$('before').disabled=ageRejected||a.previous!=='Да';
+ $('exceptionField').classList.toggle('hidden',ageRejected||a.previous!=='Да'||a.before!=='Нет');$('exception').disabled=ageRejected||a.previous!=='Да'||a.before!=='Нет';
  const statusMessages={
   'Подходит по условиям':['success','✓','Предварительно подходит','По вашим ответам условия программы соблюдены. Ставка и лимит — вверху анкеты.'],
   'Ответьте о прошлой ипотеке':['neutral','i','Уточните прошлую ипотеку','Выберите, оформляли ли вы одну из перечисленных льготных программ.'],
@@ -150,7 +156,7 @@ function update(){
  const calcMessage=calcMessages[r.calcStatus]||['neutral','i','Уточните данные',r.calcStatus];
  $('calcStatus').dataset.state=calcMessage[0];$('calcStatusIcon').textContent=calcMessage[1];$('calcStatusTitle').textContent=calcMessage[2];$('calcStatusDetail').textContent=calcMessage[3];
  for(const k of ['first','loan','second','interest','total'])$(k).textContent=rub(r[k]);
- $('questionnaireLimit').textContent=rub(r.limit);$('questionnaireRate').textContent=percent(r.rate);
+ $('questionnaireLimit').textContent=rub(r.limit);$('questionnaireRate').textContent=percent(r.questionnaireRate);
  $('resultDown').textContent=r.actualDown!==null?rub(a.down):'—';
  $('rate').textContent=percent(r.rate);$('actualDown').textContent=percent(r.actualDown);
  $('firstNote').textContent=r.first!==null?(a.years<=15?'Платёж действует весь срок кредита':'С 181-го месяца платёж изменится'):'После заполнения анкеты и параметров покупки';
@@ -173,3 +179,4 @@ $('print').addEventListener('click',()=>window.print());
 syncDown();
 update();
 </script></body></html>
+
