@@ -37,8 +37,8 @@ main{padding-top:6px}.intro{margin-top:0;padding-top:0}h1{margin-top:0}.question
 </div></form><div id="eligibility" class="eligibility-status" data-state="neutral" role="status" aria-live="polite" aria-atomic="true"><span id="eligibilityIcon" class="eligibility-icon" aria-hidden="true">i</span><div><div id="eligibilityTitle" class="eligibility-title"></div><p id="eligibilityDetail" class="eligibility-detail"></p></div></div></div>
 </section><aside>
 <div class="card" id="parametersCard"><div class="step">Параметры расчёта</div><h2>Квартира и кредит</h2><p class="muted">Введите стоимость, взнос и срок от 1 до 30 лет.</p><div class="fields">
-<label class="full">Стоимость квартиры, ₽<input form="form" id="price" type="number" min="1" step="any"></label>
-<label>Первоначальный взнос, ₽<input form="form" id="down" type="number" min="0" step="any"></label>
+<label class="full">Стоимость квартиры, ₽<input form="form" id="price" type="text" inputmode="decimal"></label>
+<label>Первоначальный взнос, ₽<input form="form" id="down" type="text" inputmode="decimal"></label>
 <label>Первоначальный взнос, %<input form="form" id="downPercent" type="number" min="0" max="100" step="any" aria-describedby="downHint"></label>
 <p id="downHint" class="muted full" style="margin:0">Укажите взнос в рублях или процентах — второе поле пересчитается автоматически.</p>
 <label class="full">Срок кредита, лет<input form="form" id="years" type="number" min="1" max="30" step="1"></label>
@@ -117,15 +117,35 @@ const rub=x=>Number.isFinite(x)?money.format(x)+' ₽':'—',percent=x=>Number.i
 const fields=['region','children','young','disabled','questionDown','previous','before','exception','price','down','years'];
 let current;
 let downUnit='rub';
+function moneyNumber(value){
+ const clean=String(value).replace(/\s/g,'').replace(',','.');
+ return clean===''?NaN:Number(clean);
+}
+function formatMoneyValue(value){
+ const clean=String(value).replace(/\s/g,'').replace('.',',');
+ if(!/^-?\d*(?:,\d*)?$/.test(clean))return value;
+ const [whole,fraction]=clean.split(',');
+ return whole.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+(fraction===undefined?'':','+fraction);
+}
+function formatMoneyInput(input){
+ const start=input.selectionStart,end=input.selectionEnd;
+ const count=pos=>input.value.slice(0,pos).replace(/\s/g,'').length;
+ const left=start===null?null:count(start),right=end===null?null:count(end);
+ input.value=formatMoneyValue(input.value);
+ if(left!==null&&typeof input.setSelectionRange==='function'){
+  const position=count=>{if(count===0)return 0;let n=0;for(let i=0;i<input.value.length;i++){if(!/\s/.test(input.value[i]))n++;if(n===count)return i+1;}return input.value.length;};
+  input.setSelectionRange(position(left),position(right));
+ }
+}
 function syncDown(){
- const price=Number($('price').value),validPrice=$('price').value!==''&&Number.isFinite(price)&&price>0;
+ const price=moneyNumber($('price').value),validPrice=$('price').value!==''&&Number.isFinite(price)&&price>0;
  const source=$(downUnit==='percent'?'downPercent':'down'),target=$(downUnit==='percent'?'down':'downPercent');
- const value=Number(source.value);
+ const value=downUnit==='percent'?Number(source.value):moneyNumber(source.value);
  if(!validPrice||source.value===''||!Number.isFinite(value)){target.value='';return;}
  const converted=downUnit==='percent'?Math.round(price*value)/100:Math.round(value/price*100*1e6)/1e6;
- target.value=Number.isFinite(converted)?String(converted):'';
+ target.value=Number.isFinite(converted)?(downUnit==='percent'?formatMoneyValue(String(converted)):String(converted)):'';
 }
-function inputs(){const a=Object.fromEntries(fields.map(k=>[k,$(k).value]));for(const k of ['children','questionDown','price','down','years'])a[k]=a[k]===''?NaN:Number(a[k]);return a;}
+function inputs(){const a=Object.fromEntries(fields.map(k=>[k,$(k).value]));for(const k of ['children','questionDown','price','down','years'])a[k]=(k==='price'||k==='down')?moneyNumber(a[k]):(a[k]===''?NaN:Number(a[k]));return a;}
 function update(){
  const a=inputs(),r=Mortgage.calculate(a);current=r;
  const ageRejected=a.young==='Нет'&&a.disabled==='Нет';
@@ -174,6 +194,7 @@ function update(){
  $('rows').innerHTML=r.schedule.map(s=>'<tr>'+[s.month,s.year,percent(s.rate),...['start','payment','interest','principal','end'].map(k=>money.format(s[k]))].map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('');
 }
 for(const k of fields)$(k).addEventListener('input',()=>{
+ if(k==='price'||k==='down')formatMoneyInput($(k));
  if(k==='down')downUnit='rub';
  if(k==='down'||k==='price')syncDown();
  update();
