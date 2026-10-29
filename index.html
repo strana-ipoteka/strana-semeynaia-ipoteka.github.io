@@ -25,23 +25,23 @@ main{padding-top:6px}.intro{margin-top:0;padding-top:0}h1{margin-top:0}.question
 <main><div class="intro"><div><h1>Семейная ипотека</h1><p class="muted">Проверьте условия, рассчитайте взнос и посмотрите платежи на весь срок.</p></div><button id="reset" class="no-print">Сбросить данные</button></div>
 <div class="grid"><section>
 <div class="card" id="questionnaireCard"><div class="questionnaire-head"><div><div class="step">Анкета семьи</div><h2>Условия участия</h2></div><div class="questionnaire-summary" aria-live="polite"><div><span>Лимит по анкете</span><strong id="questionnaireLimit">—</strong></div><div><span>Ставка по анкете</span><strong id="questionnaireRate">—</strong></div></div></div><p class="muted">Ответы определяют ставку и доступную сумму кредита.</p>
-<form id="form" novalidate><div class="fields">
-<label>Регион покупки<select id="region"><option value="">Выберите регион</option><option selected>Москва</option><option>Московская область</option><option>Иной регион</option></select></label>
-<label>Количество детей<select id="children"><option value="">Выберите количество</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5 и более</option></select></label>
-<label class="full">Есть ребёнок до 6 лет включительно?<select id="young"><option value="">Выберите ответ</option><option selected>Да</option><option>Нет</option></select></label>
-<label class="full">Есть ребёнок с инвалидностью?<select id="disabled"><option value="">Выберите ответ</option><option>Да</option><option selected>Нет</option></select></label>
-<label class="full">Первоначальный взнос по анкете, %<input id="questionDown" type="number" min="0" max="100" step="0.1" value="20.1"></label>
+<form id="form" novalidate autocomplete="off"><div class="fields">
+<label>Регион покупки<select id="region"><option value="" selected>Выберите регион</option><option>Москва</option><option>Московская область</option><option>Иной регион</option></select></label>
+<label>Количество детей<select id="children"><option value="" selected>Выберите количество</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5 и более</option></select></label>
+<label class="full">Есть ребёнок до 6 лет включительно?<select id="young"><option value="" selected>Выберите ответ</option><option>Да</option><option>Нет</option></select></label>
+<label class="full">Есть ребёнок с инвалидностью?<select id="disabled"><option value="" selected>Выберите ответ</option><option>Да</option><option>Нет</option></select></label>
+<label class="full">Первоначальный взнос по анкете, %<input id="questionDown" type="number" min="0" max="100" step="0.1"></label>
 <label class="full" id="previousField">Ранее оформляли любую льготную ипотеку: Семейная, IT, Господдержка, Дальневосточная или Арктическая?<select id="previous"><option value="" selected>Выберите ответ</option><option>Да</option><option>Нет</option></select></label>
-<label class="full hidden" id="beforeField">Эту ипотеку брали до 23.12.2023?<select id="before"><option value="">Выберите ответ</option><option>Да</option><option>Нет</option></select><span class="hint">Для договора от 23.12.2023 и позднее выберите «Нет».</span></label>
-<label class="full hidden" id="exceptionField">Прежняя льготная ипотека полностью погашена и после её оформления родился ещё один ребёнок?<select id="exception"><option value="">Выберите ответ</option><option>Да</option><option>Нет</option></select></label>
+<label class="full hidden" id="beforeField">Эту ипотеку брали до 23.12.2023?<select id="before"><option value="" selected>Выберите ответ</option><option>Да</option><option>Нет</option></select><span class="hint">Для договора от 23.12.2023 и позднее выберите «Нет».</span></label>
+<label class="full hidden" id="exceptionField">Прежняя льготная ипотека полностью погашена и после её оформления родился ещё один ребёнок?<select id="exception"><option value="" selected>Выберите ответ</option><option>Да</option><option>Нет</option></select></label>
 </div></form><div id="eligibility" class="eligibility-status" data-state="neutral" role="status" aria-live="polite" aria-atomic="true"><span id="eligibilityIcon" class="eligibility-icon" aria-hidden="true">i</span><div><div id="eligibilityTitle" class="eligibility-title"></div><p id="eligibilityDetail" class="eligibility-detail"></p></div></div></div>
 </section><aside>
 <div class="card" id="parametersCard"><div class="step">Параметры расчёта</div><h2>Квартира и кредит</h2><p class="muted">Введите стоимость, взнос и срок от 1 до 30 лет.</p><div class="fields">
-<label class="full">Стоимость квартиры, ₽<input form="form" id="price" type="number" min="1" step="any" value="17000000"></label>
-<label>Первоначальный взнос, ₽<input form="form" id="down" type="number" min="0" step="any" value="5000000"></label>
+<label class="full">Стоимость квартиры, ₽<input form="form" id="price" type="number" min="1" step="any"></label>
+<label>Первоначальный взнос, ₽<input form="form" id="down" type="number" min="0" step="any"></label>
 <label>Первоначальный взнос, %<input form="form" id="downPercent" type="number" min="0" max="100" step="any" aria-describedby="downHint"></label>
 <p id="downHint" class="muted full" style="margin:0">Укажите взнос в рублях или процентах — второе поле пересчитается автоматически.</p>
-<label class="full">Срок кредита, лет<input form="form" id="years" type="number" min="1" max="30" step="1" value="15"></label>
+<label class="full">Срок кредита, лет<input form="form" id="years" type="number" min="1" max="30" step="1"></label>
 </div><div class="line"><span>Фактический взнос</span><strong id="actualDown">—</strong></div><div id="inputError" class="error" role="status"></div></div>
 
 <div class="card result" aria-live="polite"><div class="eyebrow">ВАШ РАСЧЁТ</div><div id="calcStatus" class="eligibility-status calculation-status" data-state="neutral" role="status" aria-atomic="true"><span id="calcStatusIcon" class="eligibility-icon" aria-hidden="true">i</span><div><div id="calcStatusTitle" class="eligibility-title"></div><p id="calcStatusDetail" class="eligibility-detail"></p></div></div><div class="metric-label">Ежемесячный платёж в первые 15 лет</div><div class="big" id="first">—</div><div class="muted" id="firstNote">После заполнения анкеты и параметров покупки</div>
@@ -174,9 +174,10 @@ for(const k of fields)$(k).addEventListener('input',()=>{
 });
 $('downPercent').addEventListener('input',()=>{downUnit='percent';syncDown();update();});
 $('form').addEventListener('submit',e=>e.preventDefault());
-$('reset').addEventListener('click',()=>{fields.forEach(k=>$(k).value='');$('downPercent').value='';downUnit='rub';update();});
+function clearInputs(){fields.forEach(k=>$(k).value='');$('downPercent').value='';downUnit='rub';update();}
+$('reset').addEventListener('click',clearInputs);
 $('print').addEventListener('click',()=>window.print());
-syncDown();
-update();
+clearInputs();
+window.addEventListener('pageshow',clearInputs);
 </script></body></html>
 
